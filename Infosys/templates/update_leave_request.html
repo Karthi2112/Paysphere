@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Leave Request</title>
+</head>
+<body>
+    <h2>Edit Leave Request</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="leave_type">Leave Type:</label>
+        <input type="text" id="leave_type" name="leave_type" value="{{ leave_request.leave_type }}" required><br>
+        
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date" value="{{ leave_request.start_date }}" required><br>
+        
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date" value="{{ leave_request.end_date }}" required><br>
+        
+        <label for="reason">Reason:</label>
+        <textarea id="reason" name="reason" required>{{ leave_request.reason }}</textarea><br>
+        
+        <button type="submit">Update</button>
+    </form>
+</body>
+</html>

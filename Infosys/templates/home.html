@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Employee Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            color: #5c6bc0;
+        }
+        .dashboard {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+        }
+        .dashboard .section {
+            width: 45%;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .section h3 {
+            color: #5c6bc0;
+        }
+        .section a {
+            display: block;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #5c6bc0;
+            color: white;
+            text-align: center;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+        .section a:hover {
+            background-color: #3f4a94;
+        }
+        .logout-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .auth-links {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .auth-links a {
+            padding: 10px 20px;
+            background-color: #5c6bc0;
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            border-radius: 4px;
+        }
+        .auth-links a:hover {
+            background-color: #3f4a94;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Employee Management System</h1>
+        
+        <!-- Welcome message for logged-in user -->
+        {% if user.is_authenticated %}
+            <h2>Welcome, {{ user.username }}!</h2>
+
+            <!-- HR and Manager Dashboard -->
+            {% if user.role in "HR,Manager" %}
+            <div class="dashboard">
+                <div class="section">
+                    <h3>Manage Employees</h3>
+                    <a href="{% url 'add_employee' %}">Add New Employee</a>
+                    <a href="{% url 'employee_list' %}">View Employee List</a>
+                </div>
+
+                <div class="section">
+                    <h3>Leave Requests</h3>
+                    <a href="{% url 'leave_requests' %}">Review Leave Requests</a>
+                </div>
+            </div>
+
+            <!-- Employee Dashboard -->
+            {% elif user.role == 'Developer' or user.role == 'Software Engineer' %}
+            <div class="dashboard">
+                <div class="section">
+                    <h3>My Profile</h3>
+                    <a href="{% url 'employee_detail' user.id %}">View My Profile</a>
+                </div>
+
+                <div class="section">
+                    <h3>Leave Requests</h3>
+                    <a href="{% url 'create_leave_request' %}">Request New Leave</a>
+                    <a href="{% url 'leave_list' %}">View My Leave Requests</a>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Logout button -->
+            <div style="text-align: center; margin-block-start: 30px;">
+                <a href="{% url 'user_logout' %}" class="logout-btn">Logout</a>
+            </div>
+
+        {% else %}
+            <!-- Prompt to log in or register if user is not authenticated -->
+            <div class="auth-links">
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'register' %}">Register</a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

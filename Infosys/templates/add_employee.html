@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Employee</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-block-size: 100vh;
+            margin: 0;
+        }
+        .container {
+            max-inline-size: 500px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-block-start: 10px;
+            font-weight: bold;
+        }
+        input, textarea, select, button {
+            padding: 10px;
+            margin-block-start: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button {
+            margin-block-start: 20px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="text-left">
+        <a href="{% url 'home' %}" class="btn btn-link"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
+    </div>
+    <h2>Add New Employee</h2>
+    <form method="POST" action="{% url 'add_employee' %}">
+        {% csrf_token %}
+        
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name" required>
+        
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name" required>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone" name="phone" required>
+        
+        <label for="role">Role:</label>
+        <select id="role" name="role" required>
+            <option value="Software Engineer">Software Engineer</option>
+            <option value="Manager">Manager</option>
+            <option value="HR">HR</option>
+            <option value="Developer">Developer</option>
+        </select>
+
+        <label for="hourly_rate">Hourly Rate:</label>
+        <input type="text" id="hourly_rate" name="hourly_rate" required>
+
+        <button type="submit">Add Employee</button>
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Employee</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-block-size: 100vh;
+        }
+
+        .container {
+            max-inline-size: 800px;
+            inline-size: 100%;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-block-start: 50px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-group {
+            margin-block-end: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-block-end: 5px;
+        }
+
+        input[type="text"], input[type="email"], input[type="tel"], select {
+            inline-size: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-block-start: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Edit Employee: {{ employee.first_name }} {{ employee.last_name }}</h1>
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="first_name">First Name</label>
+                <input type="text" id="first_name" name="first_name" value="{{ employee.first_name }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="last_name">Last Name</label>
+                <input type="text" id="last_name" name="last_name" value="{{ employee.last_name }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="{{ employee.email }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" value="{{ employee.phone }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="role">Role</label>
+                <select id="role" name="role" required>
+                    <option value="Software Engineer" {% if employee.role == "Software Engineer" %}selected{% endif %}>Software Engineer</option>
+                    <option value="Manager" {% if employee.role == "Manager" %}selected{% endif %}>Manager</option>
+                    <option value="Hr" {% if employee.role == "Hr" %}selected{% endif %}>HR</option>
+                    <option value="Developer" {% if employee.role == "Developer" %}selected{% endif %}>Developer</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" name="status" required>
+                    <option value="Active" {% if employee.role == "Active" %}selected{% endif %}>Active</option>
+                    <option value="Inactive" {% if employee.role == "Inactive" %}selected{% endif %}>Inactive</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="hourly_rate">Hourly Rate</label>
+                <input type="text" id="hourly_rate" name="hourly_rate" value="{{ employee.hourly_rate }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="date_joined">Date Joined</label>
+                <input type="date" id="date_joined" name="date_joined" value="{{ employee.date_joined|date:'Y-m-d' }}" required>
+            </div>
+            
+
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+
+</body>
+</html>
