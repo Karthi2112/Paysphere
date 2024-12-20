@@ -6,61 +6,86 @@
     <title>Edit Employee</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #2d2f33;
+            color: #e9ecef;
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            min-block-size: 100vh;
+            min-height: 100vh;
         }
 
         .container {
-            max-inline-size: 800px;
-            inline-size: 100%;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-block-start: 50px;
+            max-width: 800px;
+            width: 100%;
+            padding: 30px;
+            background-color: #343a40;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            margin-top: 50px;
         }
 
         h1 {
             text-align: center;
-            color: #333;
+            color: #00bcd4;
+            margin-bottom: 20px;
         }
 
         .form-group {
-            margin-block-end: 20px;
+            margin-bottom: 20px;
         }
 
         label {
             font-weight: bold;
             display: block;
-            margin-block-end: 5px;
+            margin-bottom: 5px;
         }
 
-        input[type="text"], input[type="email"], input[type="tel"], select {
-            inline-size: 100%;
+        input[type="text"], input[type="email"], input[type="tel"], input[type="date"], select {
+            width: 100%;
             padding: 10px;
             font-size: 16px;
-            margin-block-start: 5px;
+            margin-top: 5px;
             border-radius: 5px;
-            border: 1px solid #ddd;
+            border: 1px solid #495057;
+            background-color: #495057;
+            color: #e9ecef;
+        }
+
+        input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, input[type="date"]:focus, select:focus {
+            background-color: #6c757d;
+            border-color: #00bcd4;
+            outline: none;
+            box-shadow: 0 0 5px #00bcd4;
+        }
+
+        input[readonly] {
+            background-color: #3c4147;
+            color: #bdbdbd;
+            cursor: not-allowed;
         }
 
         button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
+            padding: 12px 20px;
+            background-color: #00bcd4;
+            color: #ffffff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #0097a7;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            background-color: #007b8c;
+            transform: translateY(0);
         }
     </style>
 </head>
@@ -116,10 +141,9 @@
 
             <div class="form-group">
                 <label for="date_joined">Date Joined</label>
-                <input type="date" id="date_joined" name="date_joined" value="{{ employee.date_joined|date:'Y-m-d' }}" required>
+                <input type="date" id="date_joined" name="date_joined" value="{{ employee.date_joined|date:'Y-m-d' }}" readonly>
             </div>
             
-
             <button type="submit">Save Changes</button>
         </form>
     </div>

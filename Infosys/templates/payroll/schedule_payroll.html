@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Payroll</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #2d2f33; /* Matching background color */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #e9ecef; /* Light text color for dark theme */
+        }
+
+        .container {
+            margin-block-start: 50px;
+            background-color: #343a40; /* Matching container background */
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            color: #00bcd4;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .form-label,
+        .form-control,
+        .btn {
+            color: #e9ecef; /* White text color for labels, form controls, and buttons */
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .form-control[readonly] {
+            background-color: #495057;
+            cursor: not-allowed;
+            color: #e9ecef;
+        }
+
+        .btn-primary {
+            background-color: #00bcd4;
+            border-color: #00bcd4;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0097a7;
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .card {
+            background-color: #343a40;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .text-center {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* Target Payment Date field specifically to have black text */
+        #payment_date {
+            color: #000; /* Set text color to black */
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const employeeSelect = document.getElementById("employee");
+            const daysWorkedField = document.getElementById("days_worked");
+            const totalWorkingDaysField = document.getElementById("total_working_days");
+            const monthlySalaryField = document.getElementById("monthly_salary");
+
+            const employeesData = JSON.parse('{{ employees_data|escapejs }}');
+
+            employeeSelect.addEventListener("change", () => {
+                const selectedEmployeeId = employeeSelect.value;
+
+                if (selectedEmployeeId) {
+                    const employee = employeesData.find(emp => emp.id == selectedEmployeeId);
+
+                    if (employee) {
+                        const today = new Date();
+                        const dateJoined = new Date(employee.date_joined);
+                        const totalDays = Math.ceil((today - dateJoined) / (1000 * 60 * 60 * 24));
+
+                        totalWorkingDaysField.value = totalDays;
+
+                        const daysWorked = Math.min(totalDays, 20);
+                        daysWorkedField.value = daysWorked;
+
+                        if (employee.hourly_rate && totalDays > 0) {
+                            const monthlySalary = (daysWorked * (employee.hourly_rate * 8)).toFixed(2);
+                            monthlySalaryField.value = monthlySalary;
+                        } else {
+                            monthlySalaryField.value = "";
+                        }
+                    }
+                } else {
+                    totalWorkingDaysField.value = "";
+                    daysWorkedField.value = "";
+                    monthlySalaryField.value = "";
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center mb-4">Schedule Payroll</h2>
+
+        <form method="POST" action="{% url 'manage_payroll_hr' %}" class="card shadow p-4">
+            {% csrf_token %}
+
+            <!-- Employee dropdown -->
+            <div class="mb-3">
+                <label for="employee" class="form-label">Employee:</label>
+                <select name="employee" id="employee" class="form-select">
+                    <option value="">Select Employee</option>
+                    {% for user in users %}
+                        <option value="{{ user.id }}">{{ user.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Total working days -->
+            <div class="mb-3">
+                <label for="total_working_days" class="form-label">Total Working Days:</label>
+                <input type="number" id="total_working_days" name="total_working_days" class="form-control" readonly>
+            </div>
+
+            <!-- Days worked -->
+            <div class="mb-3">
+                <label for="days_worked" class="form-label">Days Worked:</label>
+                <input type="number" id="days_worked" name="days_worked" class="form-control" readonly>
+            </div>
+
+            <!-- Monthly salary -->
+            <div class="mb-3">
+                <label for="monthly_salary" class="form-label">Monthly Salary:</label>
+                <input type="text" id="monthly_salary" name="monthly_salary" class="form-control" readonly>
+            </div>
+
+            <!-- Payment date -->
+            <div class="mb-3">
+                <label for="payment_date" class="form-label">Payment Date:</label>
+                <input type="date" id="payment_date" name="payment_date" class="form-control" required>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Save Payroll</button>
+            </div>
+        </form>
+
+        <div class="text-center mt-4">
+            <a href="{% url 'manage_payroll_hr' %}" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
