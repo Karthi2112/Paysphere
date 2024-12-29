@@ -7,16 +7,19 @@ Key Features
 For Admin/Manager
 Employee Management
 
-Add new employees to the system.
-View, edit, or delete employee details (e.g., name, department, designation).
+->Add new employees to the system.
+->View, edit, or delete employee details (e.g., name, department, designation).
+
 Leave Management
 
-Approve or reject leave requests submitted by employees.
-Track leave history for individual employees.
+->Approve or reject leave requests submitted by employees.
+->Track leave history for individual employees.
+
 Payroll Management
 
-Manage employee salaries and process payrolls.
-View salary payment history and generate salary reports.
+->Manage employee salaries and process payrolls.
+->View salary payment history and generate salary reports.
+
 Role-Based Access
 
 Assign roles to users (e.g., Developer, Manager, HR).
@@ -31,15 +34,18 @@ A dynamic dashboard showcasing employee records, requests, and key administrativ
 For Employees
 Profile Management
 
-View personal details and update them if necessary.
-Access salary payment history.
+->View personal details and update them if necessary.
+->Access salary payment history.
+
 Leave Management
 
-Submit new leave requests.
-View the status of leave applications.
+->Submit new leave requests.
+->View the status of leave applications.
+
 Payroll Details
 
-View salary slips and track payment history.
+->View salary slips and track payment history.
+
 Project Scope
 Included: Employee management, leave approvals, and payroll processing.
 Not Included: Advanced features like real-time analytics, department-wise KPIs, and automated attendance tracking (can be added in future versions).
